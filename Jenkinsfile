@@ -1,17 +1,31 @@
-
-
 pipeline{
     agent any
+    environment{
+        Python='C:\\Users\\S\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+    }
+
     stages{
         stage('checkout code'){
             steps{
                 checkout scm
             }
         }
-        stage('run extarct.py'){
+
+        stage('extract data'){
             steps{
-                bat 'C:\\Users\\S\\AppData\\Local\\Programs\\Python\\Python313\\python.exe extract.py'
+                bat '${env.Python} extract_data.py'
             }
+        }
+    }
+    post{
+        success{
+            echo 'pipeline completed'
+        }
+        failure{
+            echo 'pipeline failed'
+        }
+        always{
+            echo 'pipeline completed'
         }
     }
 }
